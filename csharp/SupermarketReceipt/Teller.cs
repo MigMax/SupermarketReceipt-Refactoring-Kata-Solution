@@ -2,19 +2,13 @@ using System.Collections.Generic;
 
 namespace SupermarketReceipt;
 
-public class Teller
+public class Teller(SupermarketCatalog catalog)
 {
-    private readonly SupermarketCatalog _catalog;
     private readonly Dictionary<Product, Offer> _offers = new Dictionary<Product, Offer>();
-
-    public Teller(SupermarketCatalog catalog)
-    {
-        _catalog = catalog;
-    }
 
     public void AddSpecialOffer(SpecialOfferType offerType, Product product, double argument)
     {
-        _offers[product] = new Offer(offerType, product, argument);
+        _offers[product] = new Offer(offerType, argument);
     }
 
     public Receipt ChecksOutArticlesFrom(ShoppingCart theCart)
@@ -25,12 +19,12 @@ public class Teller
         {
             var p = pq.Product;
             var quantity = pq.Quantity;
-            var unitPrice = _catalog.GetUnitPrice(p);
+            var unitPrice = catalog.GetUnitPrice(p);
             var price = quantity * unitPrice;
             receipt.AddProduct(p, quantity, unitPrice, price);
         }
 
-        theCart.HandleOffers(receipt, _offers, _catalog);
+        theCart.HandleOffers(receipt, _offers, catalog);
 
         return receipt;
     }

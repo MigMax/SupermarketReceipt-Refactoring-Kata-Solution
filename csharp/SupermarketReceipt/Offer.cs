@@ -8,10 +8,8 @@ public enum SpecialOfferType
     FiveForAmount
 }
 
-public class Offer(SpecialOfferType offerType, Product product, double argument)
+public class Offer(SpecialOfferType offerType, double argument)
 {
-    private Product _product = product;
-
     public SpecialOfferType OfferType { get; } = offerType;
     public double Argument { get; } = argument;
 }

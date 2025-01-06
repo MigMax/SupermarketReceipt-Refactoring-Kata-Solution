@@ -2,16 +2,10 @@ using System.Collections.Generic;
 
 namespace SupermarketReceipt;
 
-public class Product
+public class Product(string name, ProductUnit unit)
 {
-    public Product(string name, ProductUnit unit)
-    {
-        Name = name;
-        Unit = unit;
-    }
-
-    public string Name { get; }
-    public ProductUnit Unit { get; }
+    public string Name { get; } = name;
+    public ProductUnit Unit { get; } = unit;
 
     public override bool Equals(object obj)
     {
@@ -30,16 +24,10 @@ public class Product
     }
 }
 
-public class ProductQuantity
+public class ProductQuantity(Product product, double weight)
 {
-    public ProductQuantity(Product product, double weight)
-    {
-        Product = product;
-        Quantity = weight;
-    }
-
-    public Product Product { get; }
-    public double Quantity { get; }
+    public Product Product { get; } = product;
+    public double Quantity { get; } = weight;
 }
 
 public enum ProductUnit
