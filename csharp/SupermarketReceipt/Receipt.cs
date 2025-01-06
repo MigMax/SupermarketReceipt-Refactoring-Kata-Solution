@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SupermarketReceipt;
 
@@ -9,10 +10,7 @@ public class Receipt
 
     public double GetTotalPrice()
     {
-        var total = 0.0;
-        foreach (var item in _items) total += item.TotalPrice;
-        foreach (var discount in _discounts) total += discount.DiscountAmount;
-        return total;
+        return _items.Sum(item => item.TotalPrice) + _discounts.Sum(discount => discount.DiscountAmount);
     }
 
     public void AddProduct(Product p, double quantity, double price, double totalPrice)
