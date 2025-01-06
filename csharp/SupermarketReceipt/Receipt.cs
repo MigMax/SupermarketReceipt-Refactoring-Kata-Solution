@@ -4,8 +4,8 @@ namespace SupermarketReceipt;
 
 public class Receipt
 {
-    private readonly List<Discount> _discounts = new List<Discount>();
-    private readonly List<ReceiptItem> _items = new List<ReceiptItem>();
+    private readonly List<Discount> _discounts = [];
+    private readonly List<ReceiptItem> _items = [];
 
     public double GetTotalPrice()
     {
@@ -22,7 +22,7 @@ public class Receipt
 
     public List<ReceiptItem> GetItems()
     {
-        return new List<ReceiptItem>(_items);
+        return [.._items];
     }
 
     public void AddDiscount(Discount discount)

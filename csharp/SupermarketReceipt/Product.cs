@@ -10,6 +10,7 @@ public class Product(string name, ProductUnit unit)
     public override bool Equals(object obj)
     {
         var product = obj as Product;
+        
         return product != null &&
                Name == product.Name &&
                Unit == product.Unit;

@@ -5,14 +5,14 @@ namespace SupermarketReceipt;
 
 public class ShoppingCart
 {
-    private readonly List<ProductQuantity> _items = new List<ProductQuantity>();
+    private readonly List<ProductQuantity> _items = [];
     private readonly Dictionary<Product, double> _productQuantities = new Dictionary<Product, double>();
     private static readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-GB");
 
 
     public List<ProductQuantity> GetItems()
     {
-        return new List<ProductQuantity>(_items);
+        return [.._items];
     }
 
     public void AddItem(Product product)
