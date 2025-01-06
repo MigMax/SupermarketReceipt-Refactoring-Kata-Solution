@@ -1,9 +1,8 @@
-namespace SupermarketReceipt
-{
-    public interface SupermarketCatalog
-    {
-        void AddProduct(Product product, double price);
+namespace SupermarketReceipt;
 
-        double GetUnitPrice(Product product);
-    }
+public interface SupermarketCatalog
+{
+    void AddProduct(Product product, double price);
+
+    double GetUnitPrice(Product product);
 }
