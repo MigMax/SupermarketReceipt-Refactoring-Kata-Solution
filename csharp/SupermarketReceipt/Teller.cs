@@ -13,18 +13,7 @@ public class Teller(SupermarketCatalog catalog)
 
     public Receipt ChecksOutArticlesFrom(ShoppingCart cart)
     {
-        var receipt = new Receipt();
-        
-        var productQuantities = cart.GetItems();
-        
-        foreach (ProductQuantity productQuantity in productQuantities)
-        {
-            receipt.AddItem(CreateReceiptItem(productQuantity));
-        }
-
-        cart.HandleOffers(receipt, _offers, catalog);
-
-        return receipt;
+        return cart.ChecksOutArticles(catalog, _offers);
     }
 
     private ReceiptItem CreateReceiptItem(ProductQuantity productQuantity)

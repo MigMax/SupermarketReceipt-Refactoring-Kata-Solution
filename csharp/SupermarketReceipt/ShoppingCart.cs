@@ -15,11 +15,35 @@ public class ShoppingCart
         return [.._items];
     }
 
+    public Receipt ChecksOutArticles(SupermarketCatalog catalog, Dictionary<Product, Offer> offers)
+    {
+        var receipt = new Receipt();
+
+        var productQuantities = GetItems();
+
+        foreach (ProductQuantity productQuantity in productQuantities)
+        {
+            receipt.AddItem(CreateReceiptItem(productQuantity, catalog));
+        }
+
+        HandleOffers(receipt, offers, catalog);
+
+        return receipt;
+    }
+
+    private ReceiptItem CreateReceiptItem(ProductQuantity productQuantity, SupermarketCatalog catalog)
+    {
+        var unitPrice = catalog.GetUnitPrice(productQuantity.Product);
+
+        var price = productQuantity.Quantity * unitPrice;
+
+        return new ReceiptItem(productQuantity.Product, productQuantity.Quantity, unitPrice, price);
+    }
+
     public void AddItem(Product product)
     {
         AddItemQuantity(product, 1.0);
     }
-
 
     public void AddItemQuantity(Product product, double quantity)
     {
