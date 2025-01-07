@@ -17,17 +17,22 @@ public class Teller(SupermarketCatalog catalog)
         
         var productQuantities = theCart.GetItems();
         
-        foreach (ProductQuantity pq in productQuantities)
+        foreach (ProductQuantity productQuantity in productQuantities)
         {
-            var p = pq.Product;
-            var quantity = pq.Quantity;
-            var unitPrice = catalog.GetUnitPrice(p);
-            var price = quantity * unitPrice;
-            receipt.AddProduct(p, quantity, unitPrice, price);
+            receipt.AddItem(CreateReceiptItem(productQuantity));
         }
 
         theCart.HandleOffers(receipt, _offers, catalog);
 
         return receipt;
+    }
+
+    private ReceiptItem CreateReceiptItem(ProductQuantity productQuantity)
+    {
+        var unitPrice = catalog.GetUnitPrice(productQuantity.Product);
+        
+        var price = productQuantity.Quantity * unitPrice;
+
+        return new ReceiptItem(productQuantity.Product, productQuantity.Quantity, price, price);
     }
 }
