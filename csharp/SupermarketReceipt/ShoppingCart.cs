@@ -39,11 +39,6 @@ public class ShoppingCart
         return new ReceiptItem(cartItem.Product, cartItem.Quantity, unitPrice, price);
     }
 
-    public void AddItem(Product product)
-    {
-        AddItemQuantity(product, 1.0);
-    }
-
     public void AddItemQuantity(Product product, double quantity)
     {
         _items.Add(new CartItem(product, quantity));
