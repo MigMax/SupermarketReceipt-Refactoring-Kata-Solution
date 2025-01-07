@@ -9,12 +9,6 @@ public class ShoppingCart
     private readonly Dictionary<Product, double> _productQuantities = new Dictionary<Product, double>();
     private static readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-GB");
 
-
-    public List<ProductQuantity> GetItems()
-    {
-        return [.._items];
-    }
-
     public Receipt ChecksOutArticles(SupermarketCatalog catalog, Dictionary<Product, Offer> offers)
     {
         var receipt = new Receipt();
@@ -29,6 +23,11 @@ public class ShoppingCart
         HandleOffers(receipt, offers, catalog);
 
         return receipt;
+    }
+
+    public List<ProductQuantity> GetItems()
+    {
+        return [.. _items];
     }
 
     private ReceiptItem CreateReceiptItem(ProductQuantity productQuantity, SupermarketCatalog catalog)

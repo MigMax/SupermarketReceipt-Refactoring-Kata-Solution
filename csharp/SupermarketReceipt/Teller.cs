@@ -15,13 +15,4 @@ public class Teller(SupermarketCatalog catalog)
     {
         return cart.ChecksOutArticles(catalog, _offers);
     }
-
-    private ReceiptItem CreateReceiptItem(ProductQuantity productQuantity)
-    {
-        var unitPrice = catalog.GetUnitPrice(productQuantity.Product);
-        
-        var price = productQuantity.Quantity * unitPrice;
-
-        return new ReceiptItem(productQuantity.Product, productQuantity.Quantity, unitPrice, price);
-    }
 }
