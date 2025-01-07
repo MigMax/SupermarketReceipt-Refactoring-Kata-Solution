@@ -14,8 +14,10 @@ public class Teller(SupermarketCatalog catalog)
     public Receipt ChecksOutArticlesFrom(ShoppingCart theCart)
     {
         var receipt = new Receipt();
+        
         var productQuantities = theCart.GetItems();
-        foreach (var pq in productQuantities)
+        
+        foreach (ProductQuantity pq in productQuantities)
         {
             var p = pq.Product;
             var quantity = pq.Quantity;
