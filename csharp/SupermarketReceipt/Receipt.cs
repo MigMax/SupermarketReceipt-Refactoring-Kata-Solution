@@ -13,9 +13,9 @@ public class Receipt
         return _items.Sum(item => item.TotalPrice) + _discounts.Sum(discount => discount.DiscountAmount);
     }
 
-    public void AddReceiptItem(Product p, double quantity, double price, double totalPrice)
+    public void AddItem(ReceiptItem item)
     {
-        _items.Add(new ReceiptItem(p, quantity, price, totalPrice));
+        _items.Add(item);
     }
 
     public List<ReceiptItem> GetItems()
