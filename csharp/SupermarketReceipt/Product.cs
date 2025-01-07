@@ -24,11 +24,3 @@ public class Product(string name, ProductUnit unit)
         return hashCode;
     }
 }
-
-public record CartItem(Product Product, double Quantity);
-
-public enum ProductUnit
-{
-    Kilo,
-    Each
-}
