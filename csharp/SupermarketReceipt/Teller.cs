@@ -11,18 +11,18 @@ public class Teller(SupermarketCatalog catalog)
         _offers[product] = new Offer(offerType, argument);
     }
 
-    public Receipt ChecksOutArticlesFrom(ShoppingCart theCart)
+    public Receipt ChecksOutArticlesFrom(ShoppingCart cart)
     {
         var receipt = new Receipt();
         
-        var productQuantities = theCart.GetItems();
+        var productQuantities = cart.GetItems();
         
         foreach (ProductQuantity productQuantity in productQuantities)
         {
             receipt.AddItem(CreateReceiptItem(productQuantity));
         }
 
-        theCart.HandleOffers(receipt, _offers, catalog);
+        cart.HandleOffers(receipt, _offers, catalog);
 
         return receipt;
     }
@@ -33,6 +33,6 @@ public class Teller(SupermarketCatalog catalog)
         
         var price = productQuantity.Quantity * unitPrice;
 
-        return new ReceiptItem(productQuantity.Product, productQuantity.Quantity, price, price);
+        return new ReceiptItem(productQuantity.Product, productQuantity.Quantity, unitPrice, price);
     }
 }
