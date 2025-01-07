@@ -11,13 +11,13 @@ public class SupermarketXUnitTest
         // ARRANGE
         SupermarketCatalog catalog = new FakeCatalog();
         
-        var toothbrush = new Product("toothbrush", ProductUnit.Each);
+        var toothbrush = new Product("toothbrush", ProductUnit.Each, 0.99);
         
-        catalog.AddProduct(toothbrush, 0.99);
+        catalog.AddProduct(toothbrush);
         
-        var apples = new Product("apples", ProductUnit.Kilo);
+        var apples = new Product("apples", ProductUnit.Kilo, 1.99);
         
-        catalog.AddProduct(apples, 1.99);
+        catalog.AddProduct(apples);
 
         var cart = new ShoppingCart();
         cart.AddItemQuantity(apples, 2.5);
