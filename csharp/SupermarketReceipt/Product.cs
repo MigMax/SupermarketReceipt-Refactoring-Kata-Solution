@@ -25,11 +25,7 @@ public class Product(string name, ProductUnit unit)
     }
 }
 
-public class ProductQuantity(Product product, double weight)
-{
-    public Product Product { get; } = product;
-    public double Quantity { get; } = weight;
-}
+public record CartItem(Product Product, double Quantity);
 
 public enum ProductUnit
 {

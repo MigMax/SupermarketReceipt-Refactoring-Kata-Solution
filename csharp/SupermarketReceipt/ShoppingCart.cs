@@ -5,7 +5,7 @@ namespace SupermarketReceipt;
 
 public class ShoppingCart
 {
-    private readonly List<ProductQuantity> _items = [];
+    private readonly List<CartItem> _items = [];
     private readonly Dictionary<Product, double> _productQuantities = new Dictionary<Product, double>();
     private static readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-GB");
 
@@ -15,7 +15,7 @@ public class ShoppingCart
 
         var productQuantities = GetItems();
 
-        foreach (ProductQuantity productQuantity in productQuantities)
+        foreach (CartItem productQuantity in productQuantities)
         {
             receipt.AddItem(CreateReceiptItem(productQuantity, catalog));
         }
@@ -25,18 +25,18 @@ public class ShoppingCart
         return receipt;
     }
 
-    public List<ProductQuantity> GetItems()
+    public List<CartItem> GetItems()
     {
         return [.. _items];
     }
 
-    private ReceiptItem CreateReceiptItem(ProductQuantity productQuantity, SupermarketCatalog catalog)
+    private ReceiptItem CreateReceiptItem(CartItem cartItem, SupermarketCatalog catalog)
     {
-        var unitPrice = catalog.GetUnitPrice(productQuantity.Product);
+        var unitPrice = catalog.GetUnitPrice(cartItem.Product);
 
-        var price = productQuantity.Quantity * unitPrice;
+        var price = cartItem.Quantity * unitPrice;
 
-        return new ReceiptItem(productQuantity.Product, productQuantity.Quantity, unitPrice, price);
+        return new ReceiptItem(cartItem.Product, cartItem.Quantity, unitPrice, price);
     }
 
     public void AddItem(Product product)
@@ -46,7 +46,7 @@ public class ShoppingCart
 
     public void AddItemQuantity(Product product, double quantity)
     {
-        _items.Add(new ProductQuantity(product, quantity));
+        _items.Add(new CartItem(product, quantity));
         if (_productQuantities.ContainsKey(product))
         {
             var newAmount = _productQuantities[product] + quantity;
