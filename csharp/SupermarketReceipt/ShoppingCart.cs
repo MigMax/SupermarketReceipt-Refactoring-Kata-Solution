@@ -3,13 +3,13 @@ using System.Globalization;
 
 namespace SupermarketReceipt;
 
-public class ShoppingCart
+public class ShoppingCart(SupermarketCatalog catalog)
 {
     private readonly List<CartItem> _items = [];
-    private readonly Dictionary<Product, double> _productQuantities = new Dictionary<Product, double>();
+    private readonly Dictionary<Product, double> _productQuantities = new();
     private static readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-GB");
 
-    public Receipt ChecksOutArticles(SupermarketCatalog catalog, Dictionary<Product, Offer> offers)
+    public Receipt ChecksOutArticles(Dictionary<Product, Offer> offers)
     {
         var receipt = new Receipt();
 
@@ -17,10 +17,10 @@ public class ShoppingCart
 
         foreach (CartItem productQuantity in productQuantities)
         {
-            receipt.AddItem(CreateReceiptItem(productQuantity, catalog));
+            receipt.AddItem(CreateReceiptItem(productQuantity));
         }
 
-        HandleOffers(receipt, offers, catalog);
+        HandleOffers(receipt, offers);
 
         return receipt;
     }
@@ -30,7 +30,7 @@ public class ShoppingCart
         return [.. _items];
     }
 
-    private ReceiptItem CreateReceiptItem(CartItem cartItem, SupermarketCatalog catalog)
+    private ReceiptItem CreateReceiptItem(CartItem cartItem)
     {
         var unitPrice = catalog.GetUnitPrice(cartItem.Product);
 
@@ -53,7 +53,7 @@ public class ShoppingCart
         }
     }
 
-    public void HandleOffers(Receipt receipt, Dictionary<Product, Offer> offers, SupermarketCatalog catalog)
+    public void HandleOffers(Receipt receipt, Dictionary<Product, Offer> offers)
     {
         foreach (var product in _productQuantities.Keys)
         {

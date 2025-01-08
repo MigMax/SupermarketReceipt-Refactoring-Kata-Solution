@@ -13,6 +13,6 @@ public class Teller(SupermarketCatalog catalog)
 
     public Receipt ChecksOutArticlesFrom(ShoppingCart cart)
     {
-        return cart.ChecksOutArticles(catalog, _offers);
+        return cart.ChecksOutArticles(_offers);
     }
 }

@@ -19,7 +19,7 @@ public class SupermarketXUnitTest
         
         catalog.AddProduct(apples);
 
-        var cart = new ShoppingCart();
+        var cart = new ShoppingCart(catalog);
         cart.AddItemQuantity(apples, 2.5);
 
         var teller = new Teller(catalog);
