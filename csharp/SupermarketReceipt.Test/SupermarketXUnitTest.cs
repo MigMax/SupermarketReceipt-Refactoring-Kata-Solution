@@ -22,11 +22,12 @@ public class SupermarketXUnitTest
         var cart = new ShoppingCart(catalog);
         cart.AddItemQuantity(apples, 2.5);
 
-        var teller = new Teller();
-        teller.AddSpecialOffer(SpecialOfferType.TenPercentDiscount, toothbrush, 10.0);
+        var offers = new Offers();
+        
+        offers.AddOffer(SpecialOfferType.TenPercentDiscount, toothbrush, 10.0);
 
         // ACT
-        var receipt = teller.ChecksOutArticlesFrom(cart);
+        var receipt = cart.ChecksOutArticles(offers._offers);
 
         // ASSERT
         Assert.Equal(4.975, receipt.GetTotalPrice());
