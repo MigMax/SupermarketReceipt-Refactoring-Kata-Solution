@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace SupermarketReceipt;
 
-public class Teller(SupermarketCatalog catalog)
+public class Teller
 {
     private readonly Dictionary<Product, Offer> _offers = new();
 

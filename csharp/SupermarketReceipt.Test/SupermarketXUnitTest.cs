@@ -22,7 +22,7 @@ public class SupermarketXUnitTest
         var cart = new ShoppingCart(catalog);
         cart.AddItemQuantity(apples, 2.5);
 
-        var teller = new Teller(catalog);
+        var teller = new Teller();
         teller.AddSpecialOffer(SpecialOfferType.TenPercentDiscount, toothbrush, 10.0);
 
         // ACT
