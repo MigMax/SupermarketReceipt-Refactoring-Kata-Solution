@@ -24,7 +24,7 @@ public class SupermarketXUnitTest
 
         var offers = new Offers();
         
-        offers.AddOffer(SpecialOfferType.TenPercentDiscount, toothbrush, 10.0);
+        offers.AddOffer(toothbrush, SpecialOfferType.TenPercentDiscount, 10.0);
 
         // ACT
         var receipt = cart.ChecksOutArticles(offers._offers);

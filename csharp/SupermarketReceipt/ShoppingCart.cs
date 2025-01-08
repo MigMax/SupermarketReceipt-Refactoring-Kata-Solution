@@ -9,7 +9,7 @@ public class ShoppingCart(SupermarketCatalog catalog)
     private readonly Dictionary<Product, double> _productQuantities = new();
     private static readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-GB");
 
-    public Receipt ChecksOutArticles(Dictionary<Product, Offer> offers)
+    public Receipt ChecksOutArticles(Offers offers)
     {
         var receipt = new Receipt();
 
@@ -53,13 +53,13 @@ public class ShoppingCart(SupermarketCatalog catalog)
         }
     }
 
-    public void HandleOffers(Receipt receipt, Dictionary<Product, Offer> offers)
+    public void HandleOffers(Receipt receipt, Offers offers)
     {
         foreach (var product in _productQuantities.Keys)
         {
-            if (offers.ContainsKey(product))
+            if (offers._offers.ContainsKey(product))
             {
-                var offer = offers[product];
+                var offer = offers._offers[product];
                 
                 var unitPrice = catalog.GetUnitPrice(product);
 
