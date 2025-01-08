@@ -27,7 +27,7 @@ public class SupermarketXUnitTest
         offers.AddOffer(toothbrush, SpecialOfferType.TenPercentDiscount, 10.0);
 
         // ACT
-        var receipt = cart.ChecksOutArticles(offers._offers);
+        var receipt = cart.ChecksOutArticles(offers);
 
         // ASSERT
         Assert.Equal(4.975, receipt.GetTotalPrice());

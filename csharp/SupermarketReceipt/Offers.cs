@@ -10,4 +10,11 @@ public class Offers
     {
         _offers[product] = new Offer(offerType, argument);
     }
+
+    public Offer GetOffer(Product product)
+    {
+        _offers.TryGetValue(product, out var offer);
+
+        return offer;
+    }
 }

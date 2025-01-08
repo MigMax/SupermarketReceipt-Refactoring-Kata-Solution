@@ -57,10 +57,10 @@ public class ShoppingCart(SupermarketCatalog catalog)
     {
         foreach (var product in _productQuantities.Keys)
         {
-            if (offers._offers.ContainsKey(product))
+            var offer = offers.GetOffer(product);
+            
+            if (offer is not null)
             {
-                var offer = offers._offers[product];
-                
                 var unitPrice = catalog.GetUnitPrice(product);
 
                 var discount = ComputeDiscount(product, offer, unitPrice);
