@@ -57,17 +57,13 @@ public class ShoppingCart
     {
         foreach (var product in _productQuantities.Keys)
         {
-            var quantity = _productQuantities[product];
-
-            var quantityAsInt = (int) quantity;
-            
             if (offers.ContainsKey(product))
             {
                 var offer = offers[product];
                 
                 var unitPrice = catalog.GetUnitPrice(product);
 
-                var discount = GetDiscount(product, offer, quantityAsInt, unitPrice, quantity);
+                var discount = ComputeDiscount(product, offer, unitPrice);
 
                 if (discount is not null)
                 {
@@ -77,8 +73,12 @@ public class ShoppingCart
         }
     }
 
-    private Discount GetDiscount(Product product, Offer offer, int quantityAsInt, double quantity, double unitPrice)
+    private Discount ComputeDiscount(Product product, Offer offer, double unitPrice)
     {
+        var quantity = _productQuantities[product];
+
+        var quantityAsInt = (int)quantity;
+        
         Discount discount = null;
 
         var x = 1;
