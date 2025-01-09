@@ -15,9 +15,9 @@ public class ShoppingCart(SupermarketCatalog catalog)
 
         var productQuantities = GetItems();
 
-        foreach (CartItem productQuantity in productQuantities)
+        foreach (CartItem cartItem in productQuantities)
         {
-            receipt.AddItem(CreateReceiptItem(productQuantity));
+            receipt.AddItem(CreateReceiptItem(cartItem));
         }
 
         HandleOffers(receipt, offers);
