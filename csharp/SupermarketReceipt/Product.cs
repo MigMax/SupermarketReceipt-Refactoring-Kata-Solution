@@ -5,9 +5,7 @@ namespace SupermarketReceipt;
 public class Product(string name, ProductUnit unit, double price)
 {
     public string Name { get; } = name;
-    
     public ProductUnit Unit { get; } = unit;
-
     public double UnitPrice { get; } = price;
 
     public override bool Equals(object obj)

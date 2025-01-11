@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace SupermarketReceipt;
 
 public class ShoppingCart(SupermarketCatalog catalog)
 {
     private readonly List<CartItem> _items = [];
-    private readonly Dictionary<Product, double> _productQuantities = new();
+    
     private static readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-GB");
 
     public Receipt ChecksOutArticles(Offers offers)
@@ -41,30 +42,29 @@ public class ShoppingCart(SupermarketCatalog catalog)
 
     public void AddCartItem(CartItem cartItem)
     {
-        _items.Add(cartItem);
+        var existingCartItem = _items.Find(item => item.Product.Name == cartItem.Product.Name);
         
-        if (_productQuantities.ContainsKey(cartItem.Product))
+        if (existingCartItem is not null)
         {
-            var newAmount = _productQuantities[cartItem.Product] + cartItem.Quantity;
-            _productQuantities[cartItem.Product] = newAmount;
+            existingCartItem.AddQuantity(cartItem.Quantity);
         }
         else
         {
-            _productQuantities.Add(cartItem.Product, cartItem.Quantity);
+            _items.Add(cartItem);
         }
     }
 
     public void HandleOffers(Receipt receipt, Offers offers)
     {
-        foreach (var product in _productQuantities.Keys)
+        foreach (var cartItem in _items)
         {
-            var offer = offers.GetOffer(product);
+            var offer = offers.GetOffer(cartItem.Product);
             
             if (offer is not null)
             {
-                var unitPrice = catalog.GetUnitPrice(product);
+                var unitPrice = catalog.GetUnitPrice(cartItem.Product);
 
-                var discount = ComputeDiscount(product, offer, unitPrice);
+                var discount = ComputeDiscount(cartItem.Product, offer, unitPrice);
 
                 if (discount is not null)
                 {
@@ -76,7 +76,7 @@ public class ShoppingCart(SupermarketCatalog catalog)
 
     private Discount ComputeDiscount(Product product, Offer offer, double unitPrice)
     {
-        var quantity = _productQuantities[product];
+        var quantity = _items.Single(item => item.Product.Name == product.Name).Quantity;
 
         var quantityAsInt = (int)quantity;
         
