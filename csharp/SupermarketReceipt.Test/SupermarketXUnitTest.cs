@@ -8,7 +8,6 @@ public class SupermarketXUnitTest
     [Fact]
     public void TenPercentDiscount()
     {
-        // ARRANGE
         SupermarketCatalog catalog = new FakeCatalog();
         
         var toothbrush = new Product("toothbrush", ProductUnit.Each, 0.99);
@@ -20,7 +19,8 @@ public class SupermarketXUnitTest
         catalog.AddProduct(apples);
 
         var cart = new ShoppingCart(catalog);
-        cart.AddItemQuantity(apples, 2.5);
+        
+        cart.AddCartItem(new CartItem(apples, 2.5));
 
         var offers = new Offers();
         

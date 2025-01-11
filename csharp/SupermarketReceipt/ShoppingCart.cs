@@ -39,17 +39,18 @@ public class ShoppingCart(SupermarketCatalog catalog)
         return new ReceiptItem(cartItem.Product, cartItem.Quantity, unitPrice, price);
     }
 
-    public void AddItemQuantity(Product product, double quantity)
+    public void AddCartItem(CartItem cartItem)
     {
-        _items.Add(new CartItem(product, quantity));
-        if (_productQuantities.ContainsKey(product))
+        _items.Add(cartItem);
+        
+        if (_productQuantities.ContainsKey(cartItem.Product))
         {
-            var newAmount = _productQuantities[product] + quantity;
-            _productQuantities[product] = newAmount;
+            var newAmount = _productQuantities[cartItem.Product] + cartItem.Quantity;
+            _productQuantities[cartItem.Product] = newAmount;
         }
         else
         {
-            _productQuantities.Add(product, quantity);
+            _productQuantities.Add(cartItem.Product, cartItem.Quantity);
         }
     }
 
