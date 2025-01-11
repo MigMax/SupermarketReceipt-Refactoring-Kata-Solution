@@ -4,11 +4,11 @@ namespace SupermarketReceipt;
 
 public class Offers
 {
-    public readonly Dictionary<Product, Offer> _offers = new();
+    private readonly Dictionary<Product, Offer> _offers = new();
 
-    public void AddOffer(Product product, SpecialOfferType offerType, double argument)
+    public void AddForProduct(Product product, Offer offer)
     {
-        _offers[product] = new Offer(offerType, argument);
+        _offers[product] = offer;
     }
 
     public Offer GetOffer(Product product)
