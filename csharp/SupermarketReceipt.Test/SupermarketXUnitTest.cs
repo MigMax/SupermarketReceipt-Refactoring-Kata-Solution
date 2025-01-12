@@ -15,7 +15,7 @@ public class SupermarketXUnitTest
         
         var cart = new ShoppingCart();
         
-        cart.AddCartItem(new CartItem(apples, 2.5));
+        cart.AddOrUpdateCartItem(apples, 2.5);
         
         // ACT
         var receipt = cart.ChecksOutArticles();

@@ -23,17 +23,17 @@ public class ShoppingCart()
         return receipt;
     }
 
-    public void AddCartItem(CartItem cartItem)
+    public void AddOrUpdateCartItem(Product product, double quantity)
     {
-        var existingCartItem = _cartItems.Find(item => item.Product.Name == cartItem.Product.Name);
-        
-        if (existingCartItem is not null)
+        var existingCartItem = _cartItems.Find(item => item.Product.Name == product.Name);
+
+        if (existingCartItem is null)
         {
-            existingCartItem.AddQuantity(cartItem.Quantity);
+            _cartItems.Add(new CartItem(product, quantity));
         }
         else
         {
-            _cartItems.Add(cartItem);
+            existingCartItem.AddQuantity(quantity);
         }
     }
 
