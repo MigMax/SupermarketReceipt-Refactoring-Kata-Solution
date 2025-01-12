@@ -12,6 +12,15 @@ public class CartItem(Product product, double quantity)
         Quantity += quantity;
     }
     
+    public ReceiptItem CreateReceiptItem()
+    {
+        var unitPrice = Product.UnitPrice;
+
+        var price = Quantity * unitPrice;
+
+        return new ReceiptItem(Product, Quantity, unitPrice, price);
+    }
+    
     public Discount? ComputeDiscount()
     {
         return Product.GetDiscount(Quantity);

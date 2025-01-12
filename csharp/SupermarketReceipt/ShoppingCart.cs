@@ -14,22 +14,13 @@ public class ShoppingCart()
         
         foreach (CartItem cartItem in _cartItems)
         {
-            var receiptItem = CreateReceiptItem(cartItem);
+            var receiptItem = cartItem.CreateReceiptItem();
             receipt.AddItem(receiptItem);
         }
 
         ApplyDiscounts(receipt);
 
         return receipt;
-    }
-
-    private ReceiptItem CreateReceiptItem(CartItem cartItem)
-    {
-        var unitPrice = cartItem.Product.UnitPrice;
-
-        var price = cartItem.Quantity * unitPrice;
-
-        return new ReceiptItem(cartItem.Product, cartItem.Quantity, unitPrice, price);
     }
 
     public void AddCartItem(CartItem cartItem)
