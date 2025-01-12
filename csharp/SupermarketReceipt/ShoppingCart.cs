@@ -21,7 +21,7 @@ public class ShoppingCart(SupermarketCatalog catalog, Offers offers)
             receipt.AddItem(CreateReceiptItem(cartItem));
         }
 
-        HandleOffers(receipt);
+        ApplyDiscounts(receipt);
 
         return receipt;
     }
@@ -54,7 +54,7 @@ public class ShoppingCart(SupermarketCatalog catalog, Offers offers)
         }
     }
 
-    private void HandleOffers(Receipt receipt)
+    private void ApplyDiscounts(Receipt receipt)
     {
         foreach (var cartItem in _items)
         {
