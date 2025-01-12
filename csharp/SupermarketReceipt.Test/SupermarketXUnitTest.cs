@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Xunit;
 
 namespace SupermarketReceipt.Test;
@@ -8,23 +7,16 @@ public class SupermarketXUnitTest
     [Fact]
     public void TenPercentDiscount()
     {
-        SupermarketCatalog catalog = new FakeCatalog();
-        
         var toothbrush 
             = new Product("toothbrush", ProductUnit.Each, 0.99, new Offer(SpecialOfferType.TenPercentDiscount, 10.0));
-        
-        catalog.AddProduct(toothbrush);
         
         var apples 
             = new Product("apples", ProductUnit.Kilo, 1.99);
         
-        catalog.AddProduct(apples);
-
         var cart = new ShoppingCart();
         
         cart.AddCartItem(new CartItem(apples, 2.5));
-
-
+        
         // ACT
         var receipt = cart.ChecksOutArticles();
 
