@@ -18,7 +18,8 @@ public class ShoppingCart(Offers offers)
 
         foreach (CartItem cartItem in productQuantities)
         {
-            receipt.AddItem(CreateReceiptItem(cartItem));
+            var receiptItem = CreateReceiptItem(cartItem);
+            receipt.AddItem(receiptItem);
         }
 
         ApplyDiscounts(receipt);
@@ -69,9 +70,7 @@ public class ShoppingCart(Offers offers)
 
     private void CalculateAndApplyDiscount(Receipt receipt, CartItem cartItem, Offer offer)
     {
-        var unitPrice = cartItem.Product.UnitPrice;
-
-        var discount = ComputeDiscount(cartItem.Product, offer, unitPrice);
+        var discount = ComputeDiscount(cartItem, offer);
 
         if (discount is not null)
         {
@@ -79,9 +78,9 @@ public class ShoppingCart(Offers offers)
         }
     }
 
-    private Discount ComputeDiscount(Product product, Offer offer, double unitPrice)
+    private Discount ComputeDiscount(CartItem cartItem, Offer offer)
     {
-        var quantity = _cartItems.Single(item => item.Product.Name == product.Name).Quantity;
+        var quantity = cartItem.Quantity;
 
         var quantityAsInt = (int)quantity;
         
@@ -99,9 +98,9 @@ public class ShoppingCart(Offers offers)
 
             if (quantityAsInt >= 2)
             {
-                var total = offer.Argument * (quantityAsInt / x) + quantityAsInt % 2 * unitPrice;
-                var discountN = unitPrice * quantity - total;
-                discount = new Discount(product, "2 for " + PrintPrice(offer.Argument), -discountN);
+                var total = offer.Argument * (quantityAsInt / x) + quantityAsInt % 2 * cartItem.Product.UnitPrice;
+                var discountN = cartItem.Product.UnitPrice * quantity - total;
+                discount = new Discount(cartItem.Product, "2 for " + PrintPrice(offer.Argument), -discountN);
             }
         }
 
@@ -113,17 +112,17 @@ public class ShoppingCart(Offers offers)
         {
             case SpecialOfferType.ThreeForTwo when quantityAsInt > 2:
             {
-                var discountAmount = quantity * unitPrice - (numberOfXs * 2 * unitPrice + quantityAsInt % 3 * unitPrice);
-                discount = new Discount(product, "3 for 2", -discountAmount);
+                var discountAmount = quantity * cartItem.Product.UnitPrice - (numberOfXs * 2 * cartItem.Product.UnitPrice + quantityAsInt % 3 * cartItem.Product.UnitPrice);
+                discount = new Discount(cartItem.Product, "3 for 2", -discountAmount);
                 break;
             }
             case SpecialOfferType.TenPercentDiscount:
-                discount = new Discount(product, offer.Argument + "% off", -quantity * unitPrice * offer.Argument / 100.0);
+                discount = new Discount(cartItem.Product, offer.Argument + "% off", -quantity * cartItem.Product.UnitPrice * offer.Argument / 100.0);
                 break;
             case SpecialOfferType.FiveForAmount when quantityAsInt >= 5:
             {
-                var discountTotal = unitPrice * quantity - (offer.Argument * numberOfXs + quantityAsInt % 5 * unitPrice);
-                discount = new Discount(product, x + " for " + PrintPrice(offer.Argument), -discountTotal);
+                var discountTotal = cartItem.Product.UnitPrice * quantity - (offer.Argument * numberOfXs + quantityAsInt % 5 * cartItem.Product.UnitPrice);
+                discount = new Discount(cartItem.Product, x + " for " + PrintPrice(offer.Argument), -discountTotal);
                 break;
             }
         }
