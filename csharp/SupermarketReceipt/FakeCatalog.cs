@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace SupermarketReceipt;
 
@@ -10,10 +9,5 @@ public class FakeCatalog : SupermarketCatalog
     public void AddProduct(Product product)
     {
         _products.Add(product);
-    }
-
-    public double GetUnitPrice(Product product)
-    {
-        return _products.First(p => p.Name == product.Name).UnitPrice;
     }
 }

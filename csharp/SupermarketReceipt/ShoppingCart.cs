@@ -6,7 +6,7 @@ namespace SupermarketReceipt;
 
 public class ShoppingCart(SupermarketCatalog catalog, Offers offers)
 {
-    private readonly List<CartItem> _items = [];
+    private readonly List<CartItem> _cartItems = [];
     
     private static readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-GB");
 
@@ -28,12 +28,12 @@ public class ShoppingCart(SupermarketCatalog catalog, Offers offers)
 
     private List<CartItem> GetItems()
     {
-        return [.. _items];
+        return [.. _cartItems];
     }
 
     private ReceiptItem CreateReceiptItem(CartItem cartItem)
     {
-        var unitPrice = catalog.GetUnitPrice(cartItem.Product);
+        var unitPrice = cartItem.Product.UnitPrice;
 
         var price = cartItem.Quantity * unitPrice;
 
@@ -42,7 +42,7 @@ public class ShoppingCart(SupermarketCatalog catalog, Offers offers)
 
     public void AddCartItem(CartItem cartItem)
     {
-        var existingCartItem = _items.Find(item => item.Product.Name == cartItem.Product.Name);
+        var existingCartItem = _cartItems.Find(item => item.Product.Name == cartItem.Product.Name);
         
         if (existingCartItem is not null)
         {
@@ -50,33 +50,38 @@ public class ShoppingCart(SupermarketCatalog catalog, Offers offers)
         }
         else
         {
-            _items.Add(cartItem);
+            _cartItems.Add(cartItem);
         }
     }
 
     private void ApplyDiscounts(Receipt receipt)
     {
-        foreach (var cartItem in _items)
+        foreach (var cartItem in _cartItems)
         {
             var offer = offers.GetOffer(cartItem.Product);
             
             if (offer is not null)
             {
-                var unitPrice = catalog.GetUnitPrice(cartItem.Product);
-
-                var discount = ComputeDiscount(cartItem.Product, offer, unitPrice);
-
-                if (discount is not null)
-                {
-                    receipt.AddDiscount(discount);
-                }
+                CalculateAndApplyDiscount(receipt, cartItem, offer);
             }
+        }
+    }
+
+    private void CalculateAndApplyDiscount(Receipt receipt, CartItem cartItem, Offer offer)
+    {
+        var unitPrice = cartItem.Product.UnitPrice;
+
+        var discount = ComputeDiscount(cartItem.Product, offer, unitPrice);
+
+        if (discount is not null)
+        {
+            receipt.AddDiscount(discount);
         }
     }
 
     private Discount ComputeDiscount(Product product, Offer offer, double unitPrice)
     {
-        var quantity = _items.Single(item => item.Product.Name == product.Name).Quantity;
+        var quantity = _cartItems.Single(item => item.Product.Name == product.Name).Quantity;
 
         var quantityAsInt = (int)quantity;
         
