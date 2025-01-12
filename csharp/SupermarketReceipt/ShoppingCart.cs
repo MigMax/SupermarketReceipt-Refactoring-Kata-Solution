@@ -8,8 +8,6 @@ public class ShoppingCart(Offers offers)
 {
     private readonly List<CartItem> _cartItems = [];
     
-    private static readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-GB");
-
     public Receipt ChecksOutArticles()
     {
         var receipt = new Receipt();
@@ -70,68 +68,11 @@ public class ShoppingCart(Offers offers)
 
     private void CalculateAndApplyDiscount(Receipt receipt, CartItem cartItem, Offer offer)
     {
-        var discount = ComputeDiscount(cartItem, offer);
+        var discount = cartItem.ComputeDiscount(offer);
 
         if (discount is not null)
         {
             receipt.AddDiscount(discount);
         }
-    }
-
-    private Discount ComputeDiscount(CartItem cartItem, Offer offer)
-    {
-        var quantity = cartItem.Quantity;
-
-        var quantityAsInt = (int)quantity;
-        
-        Discount discount = null;
-
-        var x = 1;
-
-        if (offer.OfferType == SpecialOfferType.ThreeForTwo)
-        {
-            x = 3;
-        }
-        else if (offer.OfferType == SpecialOfferType.TwoForAmount)
-        {
-            x = 2;
-
-            if (quantityAsInt >= 2)
-            {
-                var total = offer.Argument * (quantityAsInt / x) + quantityAsInt % 2 * cartItem.Product.UnitPrice;
-                var discountN = cartItem.Product.UnitPrice * quantity - total;
-                discount = new Discount(cartItem.Product, "2 for " + PrintPrice(offer.Argument), -discountN);
-            }
-        }
-
-        if (offer.OfferType == SpecialOfferType.FiveForAmount) x = 5;
-
-        var numberOfXs = quantityAsInt / x;
-
-        switch (offer.OfferType)
-        {
-            case SpecialOfferType.ThreeForTwo when quantityAsInt > 2:
-            {
-                var discountAmount = quantity * cartItem.Product.UnitPrice - (numberOfXs * 2 * cartItem.Product.UnitPrice + quantityAsInt % 3 * cartItem.Product.UnitPrice);
-                discount = new Discount(cartItem.Product, "3 for 2", -discountAmount);
-                break;
-            }
-            case SpecialOfferType.TenPercentDiscount:
-                discount = new Discount(cartItem.Product, offer.Argument + "% off", -quantity * cartItem.Product.UnitPrice * offer.Argument / 100.0);
-                break;
-            case SpecialOfferType.FiveForAmount when quantityAsInt >= 5:
-            {
-                var discountTotal = cartItem.Product.UnitPrice * quantity - (offer.Argument * numberOfXs + quantityAsInt % 5 * cartItem.Product.UnitPrice);
-                discount = new Discount(cartItem.Product, x + " for " + PrintPrice(offer.Argument), -discountTotal);
-                break;
-            }
-        }
-
-        return discount;
-    }
-
-    private string PrintPrice(double price)
-    {
-        return price.ToString("N2", Culture);
     }
 }
