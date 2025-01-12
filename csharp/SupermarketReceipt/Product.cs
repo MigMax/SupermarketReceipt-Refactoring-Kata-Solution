@@ -3,16 +3,23 @@ using System.Globalization;
 
 namespace SupermarketReceipt;
 
-public class Product(string name, ProductUnit unit, double price)
+public class Product(string name, ProductUnit unit, double price, Offer? offer = null)
 {
     public string Name { get; } = name;
     public ProductUnit Unit { get; } = unit;
     public double UnitPrice { get; } = price;
     
+    public Offer? Offer { get; } = offer;
+    
     private static readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-GB");
 
-    public Discount GetDiscount(Offer offer, double quantity)
+    public Discount? GetDiscount(double quantity)
     {
+        if (offer is null)
+        {
+            return null;
+        }
+        
         var quantityAsInt = (int)quantity;
         
         Discount discount = null;

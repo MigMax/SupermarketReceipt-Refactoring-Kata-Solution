@@ -57,14 +57,12 @@ public class ShoppingCart(Offers offers)
     {
         foreach (var cartItem in _cartItems)
         {
-            var offer = offers.GetOffer(cartItem.Product);
-
-            if (offer is null)
+            if (cartItem.Product.Offer is null)
             {
                 continue;
             }
             
-            var discount = cartItem.ComputeDiscount(offer);
+            var discount = cartItem.ComputeDiscount();
 
             if (discount is not null)
             {

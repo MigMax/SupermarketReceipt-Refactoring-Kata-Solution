@@ -12,8 +12,8 @@ public class CartItem(Product product, double quantity)
         Quantity += quantity;
     }
     
-    public Discount ComputeDiscount(Offer offer)
+    public Discount? ComputeDiscount()
     {
-        return Product.GetDiscount(offer, Quantity);
+        return Product.GetDiscount(Quantity);
     }
 }
