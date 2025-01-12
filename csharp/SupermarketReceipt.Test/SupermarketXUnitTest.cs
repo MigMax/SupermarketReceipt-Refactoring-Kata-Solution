@@ -18,9 +18,7 @@ public class SupermarketXUnitTest
         
         catalog.AddProduct(apples);
 
-        var offers = new Offers();
-        
-        var cart = new ShoppingCart(offers);
+        var cart = new ShoppingCart();
         
         cart.AddCartItem(new CartItem(apples, 2.5));
 
