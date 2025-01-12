@@ -22,7 +22,7 @@ public class SupermarketXUnitTest
         
         offers.AddForProduct(toothbrush, new Offer(SpecialOfferType.TenPercentDiscount, 10.0));
         
-        var cart = new ShoppingCart(catalog, offers);
+        var cart = new ShoppingCart(offers);
         
         cart.AddCartItem(new CartItem(apples, 2.5));
 

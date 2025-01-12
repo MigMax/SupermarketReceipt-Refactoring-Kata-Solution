@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace SupermarketReceipt;
 
-public class ShoppingCart(SupermarketCatalog catalog, Offers offers)
+public class ShoppingCart(Offers offers)
 {
     private readonly List<CartItem> _cartItems = [];
     
