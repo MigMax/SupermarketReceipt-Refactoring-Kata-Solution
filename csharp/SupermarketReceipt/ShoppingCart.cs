@@ -4,13 +4,13 @@ using System.Linq;
 
 namespace SupermarketReceipt;
 
-public class ShoppingCart(SupermarketCatalog catalog)
+public class ShoppingCart(SupermarketCatalog catalog, Offers offers)
 {
     private readonly List<CartItem> _items = [];
     
     private static readonly CultureInfo Culture = CultureInfo.CreateSpecificCulture("en-GB");
 
-    public Receipt ChecksOutArticles(Offers offers)
+    public Receipt ChecksOutArticles()
     {
         var receipt = new Receipt();
 
@@ -21,12 +21,12 @@ public class ShoppingCart(SupermarketCatalog catalog)
             receipt.AddItem(CreateReceiptItem(cartItem));
         }
 
-        HandleOffers(receipt, offers);
+        HandleOffers(receipt);
 
         return receipt;
     }
 
-    public List<CartItem> GetItems()
+    private List<CartItem> GetItems()
     {
         return [.. _items];
     }
@@ -54,7 +54,7 @@ public class ShoppingCart(SupermarketCatalog catalog)
         }
     }
 
-    public void HandleOffers(Receipt receipt, Offers offers)
+    private void HandleOffers(Receipt receipt)
     {
         foreach (var cartItem in _items)
         {

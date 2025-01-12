@@ -18,16 +18,17 @@ public class SupermarketXUnitTest
         
         catalog.AddProduct(apples);
 
-        var cart = new ShoppingCart(catalog);
-        
-        cart.AddCartItem(new CartItem(apples, 2.5));
-
         var offers = new Offers();
         
         offers.AddForProduct(toothbrush, new Offer(SpecialOfferType.TenPercentDiscount, 10.0));
+        
+        var cart = new ShoppingCart(catalog, offers);
+        
+        cart.AddCartItem(new CartItem(apples, 2.5));
+
 
         // ACT
-        var receipt = cart.ChecksOutArticles(offers);
+        var receipt = cart.ChecksOutArticles();
 
         // ASSERT
         Assert.Equal(4.975, receipt.GetTotalPrice());
