@@ -11,10 +11,8 @@ public class ShoppingCart(Offers offers)
     public Receipt ChecksOutArticles()
     {
         var receipt = new Receipt();
-
-        var productQuantities = GetItems();
-
-        foreach (CartItem cartItem in productQuantities)
+        
+        foreach (CartItem cartItem in _cartItems)
         {
             var receiptItem = CreateReceiptItem(cartItem);
             receipt.AddItem(receiptItem);
@@ -23,11 +21,6 @@ public class ShoppingCart(Offers offers)
         ApplyDiscounts(receipt);
 
         return receipt;
-    }
-
-    private List<CartItem> GetItems()
-    {
-        return [.. _cartItems];
     }
 
     private ReceiptItem CreateReceiptItem(CartItem cartItem)
