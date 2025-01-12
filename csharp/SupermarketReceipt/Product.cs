@@ -31,7 +31,7 @@ public class Product(string name, ProductUnit unit, double price)
             {
                 var total = offer.Argument * (quantityAsInt / x) + quantityAsInt % 2 * UnitPrice;
                 var discountN = UnitPrice * quantity - total;
-                discount = new Discount(this, "2 for " + PrintPrice(offer.Argument), -discountN);
+                discount = new Discount(Name, "2 for " + PrintPrice(offer.Argument), -discountN);
             }
         }
 
@@ -44,16 +44,16 @@ public class Product(string name, ProductUnit unit, double price)
             case SpecialOfferType.ThreeForTwo when quantityAsInt > 2:
             {
                 var discountAmount = quantity * UnitPrice - (numberOfXs * 2 * UnitPrice + quantityAsInt % 3 * UnitPrice);
-                discount = new Discount(this, "3 for 2", -discountAmount);
+                discount = new Discount(Name, "3 for 2", -discountAmount);
                 break;
             }
             case SpecialOfferType.TenPercentDiscount:
-                discount = new Discount(this, offer.Argument + "% off", -quantity * UnitPrice * offer.Argument / 100.0);
+                discount = new Discount(Name, offer.Argument + "% off", -quantity * UnitPrice * offer.Argument / 100.0);
                 break;
             case SpecialOfferType.FiveForAmount when quantityAsInt >= 5:
             {
                 var discountTotal = UnitPrice * quantity - (offer.Argument * numberOfXs + quantityAsInt % 5 * UnitPrice);
-                discount = new Discount(this, x + " for " + PrintPrice(offer.Argument), -discountTotal);
+                discount = new Discount(Name, x + " for " + PrintPrice(offer.Argument), -discountTotal);
                 break;
             }
         }

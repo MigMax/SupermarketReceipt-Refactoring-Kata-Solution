@@ -51,7 +51,7 @@ public class ReceiptPrinter
 
     private string PrintDiscount(Discount discount)
     {
-        string name = discount.Description + "(" + discount.Product.Name + ")";
+        string name = discount.Description + "(" + discount.ProductName + ")";
         string value = PrintPrice(discount.DiscountAmount);
 
         return FormatLineWithWhitespace(name, value);
