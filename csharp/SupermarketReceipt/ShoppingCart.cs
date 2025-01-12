@@ -58,21 +58,18 @@ public class ShoppingCart(Offers offers)
         foreach (var cartItem in _cartItems)
         {
             var offer = offers.GetOffer(cartItem.Product);
-            
-            if (offer is not null)
+
+            if (offer is null)
             {
-                CalculateAndApplyDiscount(receipt, cartItem, offer);
+                continue;
             }
-        }
-    }
+            
+            var discount = cartItem.ComputeDiscount(offer);
 
-    private void CalculateAndApplyDiscount(Receipt receipt, CartItem cartItem, Offer offer)
-    {
-        var discount = cartItem.ComputeDiscount(offer);
-
-        if (discount is not null)
-        {
-            receipt.AddDiscount(discount);
+            if (discount is not null)
+            {
+                receipt.AddDiscount(discount);
+            }
         }
     }
 }
