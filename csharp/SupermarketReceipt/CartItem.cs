@@ -1,15 +1,16 @@
-using System.Globalization;
-
 namespace SupermarketReceipt;
 
-public class CartItem(Product product, double quantity)
+public sealed record CartItem(Product product, double quantity)
 {
     public Product Product { get; } = product;
-    public double Quantity { get; private set; } = quantity;
+    private double Quantity { get; set; } = quantity;
     
-    public void AddQuantity(double quantity)
+    public CartItem AddQuantity(double quantity)
     {
-        Quantity += quantity;
+        return this with
+        {
+            Quantity = Quantity + quantity
+        };
     }
     
     public ReceiptItem CreateReceiptItem()

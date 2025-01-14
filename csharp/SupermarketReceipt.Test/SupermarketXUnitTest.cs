@@ -30,4 +30,22 @@ public class SupermarketXUnitTest
         Assert.Equal(2.5 * 1.99, receiptItem.TotalPrice);
         Assert.Equal(2.5, receiptItem.Quantity);
     }
+    
+    [Fact]
+    public void AddAnExistingItemToTheCart_ShouldIncreaseTheQuantity()
+    {
+        var apples = new Product("apples", ProductUnit.Kilo, 1.99);
+        
+        var cart = new ShoppingCart();
+        
+        cart.AddOrUpdateCartItem(apples, 2.5);
+        cart.AddOrUpdateCartItem(apples, 2.5);
+        
+        // ACT
+        var receipt = cart.ChecksOutArticles();
+        
+        var receiptItem = receipt.GetItems()[0];
+        
+        Assert.Equal(5, receiptItem.Quantity);
+    }
 }

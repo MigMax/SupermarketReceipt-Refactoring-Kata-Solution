@@ -33,7 +33,8 @@ public class ShoppingCart()
         }
         else
         {
-            existingCartItem.AddQuantity(quantity);
+            _cartItems.Remove(existingCartItem);
+            _cartItems.Add(existingCartItem.AddQuantity(quantity));
         }
     }
 
@@ -41,11 +42,6 @@ public class ShoppingCart()
     {
         foreach (var cartItem in _cartItems)
         {
-            if (cartItem.Product.Offer is null)
-            {
-                continue;
-            }
-            
             var discount = cartItem.ComputeDiscount();
 
             if (discount is not null)
