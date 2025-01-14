@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using FluentAssertions;
 using Xunit;
 
 namespace SupermarketReceipt.Test;
@@ -17,18 +20,38 @@ public class SupermarketXUnitTest
         
         cart.AddOrUpdateCartItem(apples, 2.5);
         
-        // ACT
         var receipt = cart.ChecksOutArticles();
 
-        // ASSERT
-        Assert.Equal(4.975, receipt.GetTotalPrice());
-        Assert.Equal([], receipt.GetDiscounts());
-        Assert.Single(receipt.GetItems());
-        var receiptItem = receipt.GetItems()[0];
-        Assert.Equal(apples, receiptItem.Product);
-        Assert.Equal(1.99, receiptItem.Price);
-        Assert.Equal(2.5 * 1.99, receiptItem.TotalPrice);
-        Assert.Equal(2.5, receiptItem.Quantity);
+        receipt.GetTotalPrice()
+            .Should()
+            .Be(4.975);
+        
+        receipt.GetDiscounts()
+            .Should()
+            .BeEquivalentTo(new List<Discount>());
+        
+        receipt.GetItems().Count
+            .Should()
+            .Be(1);
+        
+        var receiptItem = receipt.GetItems().Single();
+
+        receiptItem.Product
+            .Should()
+            .BeEquivalentTo(apples);
+        
+        receiptItem.Price
+            .Should()
+            .Be(1.99);
+        
+        receiptItem.TotalPrice
+            .Should()
+            .Be(2.5 * 1.99);
+        
+        receiptItem.Quantity
+            .Should()
+            .Be(2.5); 
+        
     }
     
     [Fact]
@@ -43,6 +66,8 @@ public class SupermarketXUnitTest
         
         // ACT
         var receipt = cart.ChecksOutArticles();
+        
+        receipt.GetItems().Count.Should().Be(1);
         
         var receiptItem = receipt.GetItems()[0];
         
