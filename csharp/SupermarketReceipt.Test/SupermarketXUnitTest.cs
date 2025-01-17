@@ -40,7 +40,7 @@ public class SupermarketXUnitTest
             .Should()
             .BeEquivalentTo(apples);
         
-        receiptItem.Price
+        receiptItem.UnitPrice
             .Should()
             .Be(1.99);
         

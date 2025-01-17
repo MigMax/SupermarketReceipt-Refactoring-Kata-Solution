@@ -21,51 +21,41 @@ public class Product(string name, ProductUnit unit, double price, Offer? offer =
         }
         
         var quantityAsInt = (int)quantity;
+
+        if (offer.OfferType == SpecialOfferType.TwoForAmount && quantityAsInt >= 2)
+        {
+            var total = offer.Argument * (quantityAsInt / 2) + quantityAsInt % 2 * UnitPrice;
+            var discountN = UnitPrice * quantity - total;
+            return new Discount(Name, "2 for " + PrintPrice(offer.Argument), -discountN);
+        }
         
-        Discount discount = null;
-
-        var x = 1;
-
-        if (offer.OfferType == SpecialOfferType.ThreeForTwo)
+        if (offer.OfferType == SpecialOfferType.ThreeForTwo && quantityAsInt > 2)
         {
-            x = 3;
-        }
-        else if (offer.OfferType == SpecialOfferType.TwoForAmount)
-        {
-            x = 2;
-
-            if (quantityAsInt >= 2)
-            {
-                var total = offer.Argument * (quantityAsInt / x) + quantityAsInt % 2 * UnitPrice;
-                var discountN = UnitPrice * quantity - total;
-                discount = new Discount(Name, "2 for " + PrintPrice(offer.Argument), -discountN);
-            }
+            var discountAmount = -(quantity * UnitPrice - (DiscountPercentage(quantityAsInt, 3) * 2 * UnitPrice + quantityAsInt % 3 * UnitPrice));
+            var description = "3 for 2";
+            return new Discount(Name, description, discountAmount);
         }
 
-        if (offer.OfferType == SpecialOfferType.FiveForAmount) x = 5;
-
-        var numberOfXs = quantityAsInt / x;
-
-        switch (offer.OfferType)
+        if (offer.OfferType == SpecialOfferType.TenPercentDiscount)
         {
-            case SpecialOfferType.ThreeForTwo when quantityAsInt > 2:
-            {
-                var discountAmount = quantity * UnitPrice - (numberOfXs * 2 * UnitPrice + quantityAsInt % 3 * UnitPrice);
-                discount = new Discount(Name, "3 for 2", -discountAmount);
-                break;
-            }
-            case SpecialOfferType.TenPercentDiscount:
-                discount = new Discount(Name, offer.Argument + "% off", -quantity * UnitPrice * offer.Argument / 100.0);
-                break;
-            case SpecialOfferType.FiveForAmount when quantityAsInt >= 5:
-            {
-                var discountTotal = UnitPrice * quantity - (offer.Argument * numberOfXs + quantityAsInt % 5 * UnitPrice);
-                discount = new Discount(Name, x + " for " + PrintPrice(offer.Argument), -discountTotal);
-                break;
-            }
+            var discountAmount = -quantity * UnitPrice * offer.Argument / 100.0;
+            var description = offer.Argument + "% off";
+            return new Discount(Name, description, discountAmount);
         }
 
-        return discount;
+        if (offer.OfferType == SpecialOfferType.FiveForAmount && quantityAsInt >= 5)
+        {
+            var discountAmount = -(UnitPrice * quantity - (offer.Argument * DiscountPercentage(quantityAsInt, 5) + quantityAsInt % 5 * UnitPrice));
+            var description = 5 + " for " + PrintPrice(offer.Argument);
+            return new Discount(Name, description, discountAmount);
+        }
+
+        return null;
+    }
+
+    private static int DiscountPercentage(int initialQuantityBuy, int totalQuantityWithOffer)
+    {
+        return initialQuantityBuy / totalQuantityWithOffer;
     }
     
     private string PrintPrice(double price)

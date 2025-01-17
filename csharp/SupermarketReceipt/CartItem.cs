@@ -3,7 +3,7 @@ namespace SupermarketReceipt;
 public sealed record CartItem(Product product, double quantity)
 {
     public Product Product { get; } = product;
-    private double Quantity { get; set; } = quantity;
+    private double Quantity { get; init; } = quantity;
     
     public CartItem AddQuantity(double quantity)
     {
@@ -17,9 +17,9 @@ public sealed record CartItem(Product product, double quantity)
     {
         var unitPrice = Product.UnitPrice;
 
-        var price = Quantity * unitPrice;
+        var totalPrice = Quantity * unitPrice;
 
-        return new ReceiptItem(Product, Quantity, unitPrice, price);
+        return new ReceiptItem(Product, Quantity, unitPrice, totalPrice);
     }
     
     public Discount? ComputeDiscount()

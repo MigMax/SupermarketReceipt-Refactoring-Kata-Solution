@@ -15,11 +15,17 @@ public class ShoppingCart
         foreach (CartItem cartItem in _cartItems)
         {
             var receiptItem = cartItem.CreateReceiptItem();
+            
             receipt.AddItem(receiptItem);
+            
+            var discount = cartItem.ComputeDiscount();
+
+            if (discount is not null)
+            {
+                receipt.AddDiscount(discount);
+            }
         }
-
-        ApplyDiscounts(receipt);
-
+        
         return receipt;
     }
 
@@ -35,19 +41,6 @@ public class ShoppingCart
         {
             _cartItems.Remove(existingCartItem);
             _cartItems.Add(existingCartItem.AddQuantity(quantity));
-        }
-    }
-
-    private void ApplyDiscounts(Receipt receipt)
-    {
-        foreach (var cartItem in _cartItems)
-        {
-            var discount = cartItem.ComputeDiscount();
-
-            if (discount is not null)
-            {
-                receipt.AddDiscount(discount);
-            }
         }
     }
 }

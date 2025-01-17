@@ -64,7 +64,7 @@ public class ReceiptPrinter
         string line = FormatLineWithWhitespace(name, totalPrice);
         if (item.Quantity != 1)
         {
-            line += "  " + PrintPrice(item.Price) + " * " + PrintQuantity(item) + "\n";
+            line += "  " + PrintPrice(item.UnitPrice) + " * " + PrintQuantity(item) + "\n";
         }
 
         return line;
